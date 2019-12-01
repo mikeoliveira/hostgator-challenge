@@ -10,7 +10,7 @@ export default createGlobalStyle`
     outline: 0;
     box-sizing: border-box;
     /* transition: all 1s; */
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat', sans-serif !important;
   }
 
   html, body, #root {

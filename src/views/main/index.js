@@ -1,18 +1,21 @@
 import React, { Component } from "react";
-import PropTypes from 'prop-types';
+
+import { withStyles } from "@material-ui/styles";
 
 import BoxProducts from "../../components/BoxProducts";
 import Container from "../../components/Container";
-import FormControlLabelCustom from './styles';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
+import { FormControlLabelCustom, RadioCustom, RadioGroupCustom, styleClass } from "./styles";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+
+import { ReactComponent as IconCheck } from "../../assets/images/icon-check.svg";
 
 import api from "../../services/api";
 
-export default class Main extends Component {
+class Main extends Component {
   state = {
     selectPeriod: "",
     products: [],
@@ -20,7 +23,6 @@ export default class Main extends Component {
     showPeriodProductLabels: [],
     discountPercent: ""
   };
-
 
   handleInputChange = e => {
     this.setState({ selectPeriod: e.target.value });
@@ -30,7 +32,6 @@ export default class Main extends Component {
   handleSubmit = e => {};
 
   componentDidMount = async e => {
-
     const products = await api.get(api.baseURL);
 
     const normalizeData = Object.values(products.data.shared.products);
@@ -43,24 +44,20 @@ export default class Main extends Component {
       selectPeriod: "triennially",
       discountPercent: 40
     });
-
-
   };
 
   normalizeLabelPeriod(period) {
     if (period < 12) {
       if (period === 1) {
         return String(period) + " mês";
-      } else {
-        return String(period) + " meses";
       }
+      return String(period) + " meses";
     } else {
       let result = period / 12;
       if (result === 1) {
         return String(result) + " ano";
-      } else {
-        return String(result) + " anos";
       }
+      return String(result) + " anos";
     }
   }
 
@@ -113,23 +110,37 @@ export default class Main extends Component {
 
   render() {
     const { products, showPeriodProduct, selectPeriod } = this.state;
+    const { classes } = this.props;
 
     return (
       <Container>
-        <FormControl component="fieldset">
+        <FormControl component="fieldset" className={classes.displayFlexElement}>
           <FormLabel component="legend"></FormLabel>
-          <RadioGroup aria-label="selectPeriod" name="period" value={selectPeriod} onChange={this.handleInputChange} row>
+          <RadioGroupCustom
+            aria-label="selectPeriod"
+            name="period"
+            value={selectPeriod}
+            onChange={this.handleInputChange}
+            row
+            className={classes.centerElement}
+          >
             {showPeriodProduct.map(period => (
               <FormControlLabelCustom
-              key={String(period)}
-              value={this.normalizePeriod(period)}
-              control={<Radio color="primary" />}
-              label={this.normalizeLabelPeriod(period)}
-              labelPlacement="end"
-            />
+                key={String(period)}
+                value={this.normalizePeriod(period)}
+                className={
+                  this.normalizePeriod(period) === selectPeriod
+                    ? classes.radioPeriod
+                    : ""
+                }
+                control={<RadioCustom />}
+                label={this.normalizeLabelPeriod(period)}
+                labelPlacement="end"
+              />
             ))}
-          </RadioGroup>
+          </RadioGroupCustom>
         </FormControl>
+        <IconCheck className={classes.svgCustom} />
         <BoxProducts>
           {products.map(product => (
             <li key={String(product.id)}>
@@ -137,7 +148,11 @@ export default class Main extends Component {
               <div>
                 {this.normalizeCalcPrice(product.cycle[selectPeriod]).map(
                   (value, index) => (
-                    <div key={"productId-" +String(product.id) + "-" + String(index)}>
+                    <div
+                      key={
+                        "productId-" + String(product.id) + "-" + String(index)
+                      }
+                    >
                       {value.priceOriginal}
                       {value.priceCompared}
                       {value.priceDiscount}
@@ -154,3 +169,5 @@ export default class Main extends Component {
     );
   }
 }
+
+export default withStyles(styleClass)(Main);
