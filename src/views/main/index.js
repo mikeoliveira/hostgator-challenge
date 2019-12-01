@@ -12,17 +12,15 @@ export default class Main extends Component {
     selectPeriod: "",
     products: [],
     showPeriodProduct: [],
-    showPeriodProductLabels: []
+    showPeriodProductLabels: [],
+    discountPercent: ""
   };
 
   handleInputChange = e => {
-
     this.setState({ selectPeriod: e.target.value });
   };
 
-  handleSubmit = e => {
-
-  };
+  handleSubmit = e => {};
 
   componentDidMount = async e => {
     const products = await api.get(api.baseURL);
@@ -34,7 +32,8 @@ export default class Main extends Component {
     this.setState({
       products: normalizeData,
       showPeriodProduct: showPeriodProduct,
-      selectPeriod: 'triennially'
+      selectPeriod: "triennially",
+      discountPercent: 40
     });
   };
 
@@ -75,10 +74,37 @@ export default class Main extends Component {
     }
   }
 
+  normalizeCalcPrice(value) {
+    const { discountPercent } = this.state;
+    /**
+     * type = ['discount', 'price']
+     * ['divide', price]
+     * ['discount-total', price]
+     */
+
+    // Divide the price per months of product's plan
+    const priceDivided = Number((value.priceOrder / value.months).toFixed(2));
+
+    const priceDiscount = Number(
+      ((discountPercent * value.priceOrder) / 100).toFixed(2)
+    );
+
+    const priceCompared = Number((value.priceOrder - priceDiscount).toFixed(2));
+
+    const priceNormalize = [
+      { priceOriginal: value.priceOrder },
+      { priceDivided: priceDivided },
+      { priceDiscount: priceDiscount },
+      { priceCompared: priceCompared }
+    ];
+
+    return priceNormalize;
+  }
+
   render() {
     const { products, showPeriodProduct, selectPeriod } = this.state;
 
-    // console.log(showPeriodProductLabels);
+    //
     return (
       <Container>
         <Form onSubmit={this.handleSubmit}>
@@ -98,10 +124,19 @@ export default class Main extends Component {
           {products.map(product => (
             <li key={String(product.id)}>
               {product.name}
-              {}
-              <span>
-                {JSON.stringify(product.cycle[selectPeriod])}
-              </span>
+              <div>
+                {this.normalizeCalcPrice(product.cycle[selectPeriod]).map(
+                  (value, index) => (
+                    <div key={"productId-" +String(product.id) + "-" + String(index)}>
+                      {value.priceOriginal}
+                      {value.priceCompared}
+                      {value.priceDiscount}
+                      {value.priceDivided}
+                    </div>
+                  )
+                )}
+              </div>
+              <span>{JSON.stringify(product.cycle[selectPeriod])}</span>
             </li>
           ))}
         </BoxProducts>
