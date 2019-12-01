@@ -1,9 +1,14 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 
 import BoxProducts from "../../components/BoxProducts";
 import Container from "../../components/Container";
-
-import { Form } from "./styles";
+import FormControlLabelCustom from './styles';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 
 import api from "../../services/api";
 
@@ -16,13 +21,16 @@ export default class Main extends Component {
     discountPercent: ""
   };
 
+
   handleInputChange = e => {
     this.setState({ selectPeriod: e.target.value });
   };
 
+  // Enviar os dados do produto escolhido
   handleSubmit = e => {};
 
   componentDidMount = async e => {
+
     const products = await api.get(api.baseURL);
 
     const normalizeData = Object.values(products.data.shared.products);
@@ -35,6 +43,8 @@ export default class Main extends Component {
       selectPeriod: "triennially",
       discountPercent: 40
     });
+
+
   };
 
   normalizeLabelPeriod(period) {
@@ -104,22 +114,22 @@ export default class Main extends Component {
   render() {
     const { products, showPeriodProduct, selectPeriod } = this.state;
 
-    //
     return (
       <Container>
-        <Form onSubmit={this.handleSubmit}>
-          {showPeriodProduct.map(period => (
-            <label key={String(period)}>
-              <input
-                type="radio"
-                value={this.normalizePeriod(period)}
-                checked={selectPeriod === this.normalizePeriod(period)}
-                onChange={this.handleInputChange}
-              />
-              {this.normalizeLabelPeriod(period)}
-            </label>
-          ))}
-        </Form>
+        <FormControl component="fieldset">
+          <FormLabel component="legend"></FormLabel>
+          <RadioGroup aria-label="selectPeriod" name="period" value={selectPeriod} onChange={this.handleInputChange} row>
+            {showPeriodProduct.map(period => (
+              <FormControlLabelCustom
+              key={String(period)}
+              value={this.normalizePeriod(period)}
+              control={<Radio color="primary" />}
+              label={this.normalizeLabelPeriod(period)}
+              labelPlacement="end"
+            />
+            ))}
+          </RadioGroup>
+        </FormControl>
         <BoxProducts>
           {products.map(product => (
             <li key={String(product.id)}>
