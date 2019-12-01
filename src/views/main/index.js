@@ -11,81 +11,98 @@ export default class Main extends Component {
   state = {
     selectPeriod: "",
     products: [],
-    selectedOption: "",
     showPeriodProduct: [],
+    showPeriodProductLabels: []
   };
 
   handleInputChange = e => {
+
     this.setState({ selectPeriod: e.target.value });
   };
 
-  handleSubmit = e => {};
+  handleSubmit = e => {
+
+  };
 
   componentDidMount = async e => {
     const products = await api.get(api.baseURL);
 
     const normalizeData = Object.values(products.data.shared.products);
 
-    const showPeriodProduct = [ 36, 12, 1 ];
+    const showPeriodProduct = [36, 12, 1];
 
     this.setState({
       products: normalizeData,
       showPeriodProduct: showPeriodProduct,
+      selectPeriod: 'triennially'
     });
   };
 
-  render() {
-    const { products, showPeriodProduct } = this.state;
+  normalizeLabelPeriod(period) {
+    if (period < 12) {
+      if (period === 1) {
+        return String(period) + " mês";
+      } else {
+        return String(period) + " meses";
+      }
+    } else {
+      let result = period / 12;
+      if (result === 1) {
+        return String(result) + " ano";
+      } else {
+        return String(result) + " anos";
+      }
+    }
+  }
 
-    console.log(products);
+  normalizePeriod(period) {
+    switch (period) {
+      case 1:
+        return "monthly";
+      case 3:
+        return "quarterly";
+      case 6:
+        return "semiannually";
+      case 12:
+        return "annually";
+      case 24:
+        return "biennially";
+      case 36:
+        return "triennially";
+
+      default:
+        return "custom";
+    }
+  }
+
+  render() {
+    const { products, showPeriodProduct, selectPeriod } = this.state;
+
+    // console.log(showPeriodProductLabels);
     return (
       <Container>
-          {products.map(product => (
-            Object.values(product.cycle).map(period => (
-
-              <li hidden={!(showPeriodProduct.includes(period.months))}>
-                {product.name} {period.months}
-              </li>
-
-
-
-            ))
-          ))}
         <Form onSubmit={this.handleSubmit}>
-          {/* <div className="radio">
-            <label>
+          {showPeriodProduct.map(period => (
+            <label key={String(period)}>
               <input
                 type="radio"
-                value="option1"
-                checked={ selectedOption === "monthly"}
+                value={this.normalizePeriod(period)}
+                checked={selectPeriod === this.normalizePeriod(period)}
+                onChange={this.handleInputChange}
               />
-              1 mês
+              {this.normalizeLabelPeriod(period)}
             </label>
-          </div>
-          <div className="radio">
-            <label>
-              <input
-                type="radio"
-                value="option2"
-                checked={ selectedOption === "annually"}
-              />
-              1 ano
-            </label>
-          </div>
-          <div className="radio">
-            <label>
-              <input
-                type="radio"
-                value="option3"
-                checked={ selectedOption === "triennially"}
-              />
-              3 anos
-            </label>
-          </div> */}
+          ))}
         </Form>
         <BoxProducts>
           {products.map(product => (
-            <li key={String(product.id)}>{product.name}</li>
+            <li key={String(product.id)}>
+              {product.name}
+              {}
+              <span>
+                {JSON.stringify(product.cycle[selectPeriod])}
+              </span>
+            </li>
           ))}
         </BoxProducts>
       </Container>
