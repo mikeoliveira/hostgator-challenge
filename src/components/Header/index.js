@@ -3,6 +3,8 @@ import Container from "@material-ui/core/Container";
 import { withStyles } from "@material-ui/styles";
 import { ReactComponent as LogoHostgator } from "../../assets/images/hostgator-logo.svg";
 import { ReactComponent as IconCheck } from "../../assets/images/icon-check.svg";
+
+import ArrowHeaderScroll from "../../assets/images/arrow-bottom-scroll.svg";
 import OfficeCowork from "../../assets/images/img-office-cowork.png";
 import OfficeSomethings from "../../assets/images/img-office-somethings.png";
 
@@ -23,7 +25,7 @@ const styleClass = () => ({
     paddingTop: "60px",
     position: "relative",
     "&:before": {
-      bottom: "0px",
+      bottom: "-1px",
       left: "0",
       width: "100%",
       height: "65px",
@@ -42,28 +44,67 @@ const styleClass = () => ({
       borderBottomRightRadius: "100%",
       backgroundColor: "#1d5297",
       zIndex: 1
+    },
+    "@media (min-width: 1280px)": {
+      height: "430px"
+    },
+    "@media (max-width: 1280px)": {
+      height: "340px"
+    },
+    "@media (max-width: 960px)": {
+      height: "440px",
+      "&:before": {
+        height: "35px"
+      },
+      "&:after": {
+        content: "none"
+      }
     }
   },
   imgCowork: {
     zIndex: 2,
-    "@media (max-width: 1024px)": {
+    maxWidth: "439px",
+    width: "100%",
+    height: "auto",
+    maxHeight: "353px",
+    paddingTop: "50px",
+
+    "& img": {
+      width: "100%"
+    },
+    "@media (min-width: 1280px) and (max-width: 1520px)": {
+      maxWidth: "285px"
+    },
+    "@media (max-width: 1280px)": {
       display: "none"
     }
   },
   imgOfficeSomething: {
     zIndex: 2,
-    "@media (max-width: 1024px)": {
+    maxWidth: "439px",
+    width: "100%",
+    height: "auto",
+    maxHeight: "353px",
+    paddingTop: "25px",
+    "& img": {
+      width: "100%"
+    },
+    "@media (min-width: 1280px) and (max-width: 1520px)": {
+      maxWidth: "285px"
+    },
+    "@media (max-width: 1280px)": {
       display: "none"
     }
   },
   titlesHeader: {
+    width: "100%",
     zIndex: 2,
     "& h2": {
       textAlign: "center",
       letterSpacing: "1.6px",
       color: "#B9D0EF",
       fontSize: "27px",
-      "@media (max-width: 1024px)": {
+      "@media (max-width: 1280px)": {
         fontSize: "16px"
       },
       fontWeight: "600"
@@ -74,15 +115,17 @@ const styleClass = () => ({
       color: "#FFF",
       fontSize: "40px",
       fontWeight: "Bold",
-      "@media (max-width: 1024px)": {
-        fontSize: "30px"
+      "@media (max-width: 1280px)": {
+        fontSize: "30px",
+        maxWidth: "780px",
+        margin: "0 auto"
       }
     },
     "& h3": {
       textAlign: "center",
       color: "#B9D0EF",
       fontSize: "22px",
-      "@media (max-width: 1024px)": {
+      "@media (max-width: 1280px)": {
         fontSize: "16px"
       },
       letterSpacing: "0px",
@@ -96,7 +139,30 @@ const styleClass = () => ({
       },
       "& svg": {
         marginRight: "5px"
+      },
+      "@media (max-width: 920px)": {
+        width: "280px",
+        margin: "0 auto",
+        display: "flex",
+        alignItems: "flex-start",
+        flexDirection: "column",
+        "& p": {
+          textAlign: 'center',
+          display: 'flex',
+        },
+        "& span": {
+
+        }
       }
+    }
+  },
+  arrowHeaderScroll: {
+    display: "flex",
+    justifyContent: "center",
+    "& img": {
+      marginTop: "-55px",
+      position: "absolute",
+      zIndex: "3"
     }
   }
 });
@@ -119,11 +185,10 @@ class Header extends Component {
           </Container>
         </ContainerCustom>
         <ContainerCustom className={classes.bgBlue}>
-          <img
-            src={OfficeSomethings}
-            alt="Office Somethings"
-            className={classes.imgOfficeSomething}
-          />
+          <div className={classes.imgOfficeSomething}>
+            <img src={OfficeSomethings} alt="Office Somethings" />
+          </div>
+
           <div className={classes.titlesHeader}>
             <h2>Hospedagem de Sites</h2>
             <h1>
@@ -132,22 +197,37 @@ class Header extends Component {
             </h1>
             <h3>
               <p>
-                <IconCheck />
-                99,9% de disponibilidade: seu site sempre no ar
+                <span>
+                  <IconCheck />
+                </span>
+                  99,9% de disponibilidade: seu site sempre no ar
+
               </p>
               <p>
                 <span>
                   <IconCheck />
-                  Suporte 24h, todos os dias
                 </span>
+                  Suporte 24h, todos os dias
+
+              </p>
+              <p>
                 <span>
                   <IconCheck />
-                  Painel de Controle cPanel
                 </span>
+                  Painel de Controle cPanel
               </p>
             </h3>
           </div>
-          <img src={OfficeCowork} alt="CoWork" className={classes.imgCowork} />
+          <div className={classes.imgCowork}>
+            <img src={OfficeCowork} alt="CoWork" />
+          </div>
+        </ContainerCustom>
+        <ContainerCustom>
+          <div className={classes.arrowHeaderScroll}>
+            <a href='#'>
+              <img src={ArrowHeaderScroll} alt="Arrow scroll page" />
+            </a>
+          </div>
         </ContainerCustom>
       </>
     );

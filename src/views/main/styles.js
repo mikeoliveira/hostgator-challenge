@@ -19,7 +19,7 @@ const FormControlLabelCustom = withStyles({
     background: '#FFF',
     color: 'white',
     height: 36,
-    width: 120,
+    width: 121,
     padding: '0px 15px',
     boxShadow: 'none',
     marginRight: 0,
