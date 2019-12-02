@@ -161,6 +161,7 @@ const styleClass = () => ({
     justifyContent: "center",
     "& img": {
       marginTop: "-55px",
+      marginLeft: "-25px",
       position: "absolute",
       zIndex: "3"
     }
