@@ -10,7 +10,6 @@ export default createGlobalStyle`
     outline: 0;
     box-sizing: border-box;
     /* transition: all 1s; */
-    font-family: 'Montserrat', sans-serif !important;
   }
 
   html, body, #root {
@@ -19,31 +18,28 @@ export default createGlobalStyle`
 
   body {
     background: #F1F6FB;
+    font-family: 'Montserrat', sans-serif !important;
     -webkit-font-smoothing: antialiased !important;
   }
 
   body, input , button {
     color: #222;
     font-size: 14px;
-    font-family: Arial, Helvetica, sans-serif;
   }
 
   @media only screen and (min-width: 1024px) {
     body, input , button {
-      color: red;
-      font-size: 40px;
+
     }
   }
   @media only screen and (min-width: 768px) and (max-width: 1024px) {
     body, input , button {
-      color: green;
-      font-size: 30px;
+
     }
   }
   @media only screen and (max-width: 768px) {
     body, input , button {
-      color: blue;
-      font-size: 10px;
+
     }
   }
 `;

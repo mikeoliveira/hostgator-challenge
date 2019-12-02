@@ -1,8 +1,5 @@
 import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
-import { fontWeight } from "@material-ui/system";
-
-
 
 const RadioGroupCustom = withStyles({
   root: {
@@ -82,11 +79,6 @@ const styleClass = () => ({
     display: 'flex',
     justifyContent: 'center',
   },
-  svgCustom: {
-    '& rect': {
-      fill: '#000'
-    }
-  }
 });
 
 export {FormControlLabelCustom, RadioCustom, RadioGroupCustom, styleClass};

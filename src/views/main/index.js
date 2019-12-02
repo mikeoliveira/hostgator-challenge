@@ -2,16 +2,19 @@ import React, { Component } from "react";
 
 import { withStyles } from "@material-ui/styles";
 
-import BoxProducts from "../../components/BoxProducts";
-import Container from "../../components/Container";
-import { FormControlLabelCustom, RadioCustom, RadioGroupCustom, styleClass } from "./styles";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import BoxProducts from "../../components/boxProducts";
+import Container from "../../components/container";
+import Header from "../../components/header";
+import {
+  FormControlLabelCustom,
+  RadioCustom,
+  RadioGroupCustom,
+  styleClass
+} from "./styles";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 
-import { ReactComponent as IconCheck } from "../../assets/images/icon-check.svg";
+
 
 import api from "../../services/api";
 
@@ -113,59 +116,67 @@ class Main extends Component {
     const { classes } = this.props;
 
     return (
-      <Container>
-        <FormControl component="fieldset" className={classes.displayFlexElement}>
-          <FormLabel component="legend"></FormLabel>
-          <RadioGroupCustom
-            aria-label="selectPeriod"
-            name="period"
-            value={selectPeriod}
-            onChange={this.handleInputChange}
-            row
-            className={classes.centerElement}
+      <>
+        <Header></Header>
+        <Container>
+          <FormControl
+            component="fieldset"
+            className={classes.displayFlexElement}
           >
-            {showPeriodProduct.map(period => (
-              <FormControlLabelCustom
-                key={String(period)}
-                value={this.normalizePeriod(period)}
-                className={
-                  this.normalizePeriod(period) === selectPeriod
-                    ? classes.radioPeriod
-                    : ""
-                }
-                control={<RadioCustom />}
-                label={this.normalizeLabelPeriod(period)}
-                labelPlacement="end"
-              />
+            <FormLabel component="legend"></FormLabel>
+            <RadioGroupCustom
+              aria-label="selectPeriod"
+              name="period"
+              value={selectPeriod}
+              onChange={this.handleInputChange}
+              row
+              className={classes.centerElement}
+            >
+              {showPeriodProduct.map(period => (
+                <FormControlLabelCustom
+                  key={String(period)}
+                  value={this.normalizePeriod(period)}
+                  className={
+                    this.normalizePeriod(period) === selectPeriod
+                      ? classes.radioPeriod
+                      : ""
+                  }
+                  control={<RadioCustom />}
+                  label={this.normalizeLabelPeriod(period)}
+                  labelPlacement="end"
+                />
+              ))}
+            </RadioGroupCustom>
+          </FormControl>
+          <BoxProducts>
+            {products.map(product => (
+              <li key={String(product.id)}>
+                {product.name}
+                <div>
+                  {this.normalizeCalcPrice(product.cycle[selectPeriod]).map(
+                    (value, index) => (
+                      <div
+                        key={
+                          "productId-" +
+                          String(product.id) +
+                          "-" +
+                          String(index)
+                        }
+                      >
+                        {value.priceOriginal}
+                        {value.priceCompared}
+                        {value.priceDiscount}
+                        {value.priceDivided}
+                      </div>
+                    )
+                  )}
+                </div>
+                <span>{JSON.stringify(product.cycle[selectPeriod])}</span>
+              </li>
             ))}
-          </RadioGroupCustom>
-        </FormControl>
-        <IconCheck className={classes.svgCustom} />
-        <BoxProducts>
-          {products.map(product => (
-            <li key={String(product.id)}>
-              {product.name}
-              <div>
-                {this.normalizeCalcPrice(product.cycle[selectPeriod]).map(
-                  (value, index) => (
-                    <div
-                      key={
-                        "productId-" + String(product.id) + "-" + String(index)
-                      }
-                    >
-                      {value.priceOriginal}
-                      {value.priceCompared}
-                      {value.priceDiscount}
-                      {value.priceDivided}
-                    </div>
-                  )
-                )}
-              </div>
-              <span>{JSON.stringify(product.cycle[selectPeriod])}</span>
-            </li>
-          ))}
-        </BoxProducts>
-      </Container>
+          </BoxProducts>
+        </Container>
+      </>
     );
   }
 }
