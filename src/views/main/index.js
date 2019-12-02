@@ -9,11 +9,10 @@ import {
   FormControlLabelCustom,
   RadioCustom,
   RadioGroupCustom,
+  FormLabelCustom,
   styleClass
 } from "./styles";
 import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
-
 
 
 import api from "../../services/api";
@@ -123,7 +122,9 @@ class Main extends Component {
             component="fieldset"
             className={classes.displayFlexElement}
           >
-            <FormLabel component="legend"></FormLabel>
+            <FormLabelCustom component="legend">
+              Quero pagar a cada:
+            </FormLabelCustom>
             <RadioGroupCustom
               aria-label="selectPeriod"
               name="period"

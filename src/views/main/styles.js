@@ -1,4 +1,4 @@
-import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
+import { FormControlLabel, Radio, RadioGroup, FormLabel } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 
 const RadioGroupCustom = withStyles({
@@ -6,6 +6,13 @@ const RadioGroupCustom = withStyles({
     margin: '20px 0px',
   }
 })(RadioGroup);
+
+const FormLabelCustom = withStyles({
+  root: {
+    textAlign: 'center',
+    fontFamily: '"Montserrat", sans-serif',
+  }
+})(FormLabel);
 
 const FormControlLabelCustom = withStyles({
   root: {
@@ -78,9 +85,9 @@ const styleClass = () => ({
   centerElement: {
     display: 'flex',
     justifyContent: 'center',
-  },
+  }
 });
 
-export {FormControlLabelCustom, RadioCustom, RadioGroupCustom, styleClass};
+export {FormControlLabelCustom, RadioCustom, RadioGroupCustom, FormLabelCustom, styleClass};
 
 
