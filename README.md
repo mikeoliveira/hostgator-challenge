@@ -3,7 +3,8 @@
 This is a Hostgator's challenge, the first step the interview.
 This is a simple project.
 
-Until now, i have never code with REACT. i learned and created this project in 5 days.
+Until now, i have never code with REACT.
+I learned and created this project in 3 days, because i made [this project](https://github.com/mikeoliveira/githubApi) to learn the basic React.
 
 Clone repository in your local and Install dependences
 
