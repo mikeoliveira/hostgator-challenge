@@ -2,8 +2,8 @@ import React, { Component } from "react";
 
 import { withStyles } from "@material-ui/styles";
 
-import Container from "../../components/container";
-import Header from "../../components/header";
+import Container from "../../components/Container";
+import Header from "../../components/Header";
 import {
   FormControlLabelCustom,
   RadioCustom,
@@ -11,7 +11,7 @@ import {
   FormLabelCustom,
   styleClass
 } from "./styles";
-import { CardCustom } from "../../components/boxProducts";
+import { CardCustom } from "../../components/BoxProducts";
 import FormControl from "@material-ui/core/FormControl";
 
 import IconPlanP from "../../assets/images/icon-plan-p.png";
