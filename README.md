@@ -14,7 +14,7 @@ Clone repository in your local and Install dependences
 Use the package manager [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)to install dependence.
 
 ```bash
-npm install OR yarn install
+npm install
 ```
 
 ## Usage
