@@ -23,6 +23,8 @@ After install the denpences, you can run the project with this command:
 npm start
 ```
 
+Normally you can access the project by browser in http://localhost:3000
+
 ## Contributing
 Not permission contributing, this project is only to avaiable the candidate's skills.
 
