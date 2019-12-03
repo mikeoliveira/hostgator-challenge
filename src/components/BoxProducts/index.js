@@ -9,7 +9,6 @@ const CardCustom = withStyles({
   root: {
     margin: "1px 5px",
     boxShadow: 'none',
-    padding: "35px 25px 25px 35px",
     position: "relative",
     display: "flex",
     flexDirection: "column",

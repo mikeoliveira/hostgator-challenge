@@ -18,6 +18,8 @@ import IconPlanP from "../../assets/images/icon-plan-p.png";
 import IconPlanM from "../../assets/images/icon-plan-m.png";
 import IconPlanTurbo from "../../assets/images/icon-plan-turbo.png";
 
+import { ReactComponent as IconInfo } from "../../assets/images/icon-info.svg";
+
 import api from "../../services/api";
 
 class Main extends Component {
@@ -162,7 +164,8 @@ class Main extends Component {
       products,
       showPeriodProduct,
       selectPeriod,
-      normalizePrices
+      normalizePrices,
+      discountPercent
     } = this.state;
 
     const { classes } = this.props;
@@ -206,56 +209,90 @@ class Main extends Component {
           </FormControl>
           <section className={classes.centerElement}>
             {products.map(product => (
-              <div className={classes.listProductsElement}>
-                <CardCustom key={String(product.id)}>
-                  <div>
+              <CardCustom
+                className={(product.id === 6)? classes.listProductsElementOrange : classes.listProductsElement}
+                key={String(product.id)}
+              >
+                <div className={classes.dividerCard}>
+                  <div className={classes.centerElement}>
                     <img
                       src={this.normalizeIconProduct(product.id)}
                       alt={product.name}
                     />
                   </div>
                   <h3>{product.name}</h3>
-                </CardCustom>
-                <CardCustom>
+                </div>
+                <div className={classes.dividerCard}>
                   <div className={classes.priceProductsElement}>
-                    {/* {(normalizePrices[product.id])
-                      ? this.showPrice(
-                          normalizePrices[product.id],
-                          "priceOriginal"
-                        )
-                      : ""} */}
+                    <div className={classes.centerElement}>
+                      <span className={classes.priceOriginal}>
+                        R$
+                        {normalizePrices[product.id]
+                          ? this.showPrice(
+                              normalizePrices[product.id],
+                              "priceOriginal"
+                            )
+                          : ""}
+                      </span>
+                      <span className={classes.priceDiscount}>
+                        R$
+                        {normalizePrices[product.id]
+                          ? this.showPrice(
+                              normalizePrices[product.id],
+                              "priceDiscount"
+                            )
+                          : ""}
+                      </span>
+                    </div>
+                    <div className={classes.priceDivided}>
+                      <p>equivalente</p>
+                      <p>
+                        R$
+                        <span>
+                          {normalizePrices[product.id]
+                            ? this.showPrice(
+                                normalizePrices[product.id],
+                                "priceDivided"
+                              )
+                            : ""}
+                        </span>{" "}
+                        /mês
+                      </p>
+                    </div>
+                    <div className={(product.id === 6)? classes.priceBtnOrange : classes.priceBtn}>
+                      <a href={"?a=add&pid="+ String(product.id)+"&billingcycle="+selectPeriod+"&promocode=PROMOHG40"}>Contrate Agora</a>
+                    </div>
 
-                    {normalizePrices[product.id]
-                      ? this.showPrice(
-                          normalizePrices[product.id],
-                          "priceOriginal"
-                        )
-                      : ""}
-
+                    <div className={classes.freeDomain1year}>
+                      1 ano de Domínio Grátis.{" "}
+                      <span>
+                        <a href="#">
+                          <IconInfo />
+                        </a>
+                      </span>
+                    </div>
+                    <div className={classes.economicValuePercent}>
+                      economize R$
                       {normalizePrices[product.id]
-                      ? this.showPrice(
-                          normalizePrices[product.id],
-                          "priceDivided"
-                        )
-                      : ""}
-
-                      {normalizePrices[product.id]
-                      ? this.showPrice(
-                          normalizePrices[product.id],
-                          "priceDiscount"
-                        )
-                      : ""}
-
-                      {normalizePrices[product.id]
-                      ? this.showPrice(
-                          normalizePrices[product.id],
-                          "priceCompared"
-                        )
-                      : ""}
-
+                        ? this.showPrice(
+                            normalizePrices[product.id],
+                            "priceCompared"
+                          )
+                        : ""}
+                      <span>{discountPercent}% off</span>
+                    </div>
                   </div>
-                </CardCustom>
-              </div>
+                </div>
+                <div className={classes.dividerCard}>
+                  <ul className={classes.listItems}>
+                    <li><span className={classes.borderBottomDashed}>Para 1 site</span></li>
+                    <li><b>{(product.id === 335)?'150':'100' } GB</b> de Armazenamento</li>
+                    <li> <span className={classes.borderBottomDashed}>Contas de E-mail <b>Ilimitadas</b></span></li>
+                    <li>Criador de Sites <u><b>Grátis</b></u> </li>
+                    <li>Certificado SSL <b>Grátis</b> (https)</li>
+                  </ul>
+                </div>
+              </CardCustom>
             ))}
           </section>
         </Container>
